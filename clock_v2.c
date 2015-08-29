@@ -87,15 +87,20 @@ int is_bisect_year (int timestamp){
 }
 
 /**
+ * Receives the timestamp and returns the number of days passed in the current year
+ *
+ */
+int days_passed_current_year (int time){
+   return get_days(time) - ((get_years(time) * 365) + get_bisect_years_number(time));
+}
+
+/**
  * Receives the timestamp and returns the current month
  *
  */
 int get_current_month (int time){
-   int days = get_days(time);
-   int years = get_years(time);
-   int bisect_years = get_bisect_years_number(time);
    /* the number of days passed in the current year is: */
-   int tyd = days - ((years * 365) + bisect_years);
+   int tyd = days_passed_current_year(time);
    int i;
    if (is_bisect_year(time) == 0){
       i = 0;
@@ -127,6 +132,7 @@ int get_current_month (int time){
    }else if (tyd>334+i && tyd<=365+i){
       return 12;
    }
+   return 0;
 }
 
 /**
