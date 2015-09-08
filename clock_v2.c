@@ -34,7 +34,7 @@ int get_hours (int time){
  *
  */
 int get_days (int time){
-   return time / (3600*24);
+   return time / (3600 * 24);
 }
 
 /**
@@ -43,10 +43,10 @@ int get_days (int time){
  */
 int get_years (int time){
    int days = get_days(time);
-   int year=0;
-   int count=0;
+   int year = 0;
+   int count = 0;
    while (1){
-      if ((year%4 != 0) || ((year%100 != 0) && (year%400 == 0))){
+      if ((year % 4 != 0) || ((year % 100 != 0) && (year % 400 == 0))){
          count += 365;
       }else{
          count += 366;
@@ -79,7 +79,7 @@ int get_bisect_years_number (int time){
  */
 int is_bisect_year (int timestamp){
    int current_year = get_current_year(timestamp);
-   if (current_year %4 !=0 || ((current_year %100 !=0) && (current_year %400 ==0))){
+   if (current_year % 4 != 0 || ((current_year % 100 != 0) && (current_year % 400 ==0))){
       return 0;
    }else{
       return 1;
@@ -107,29 +107,29 @@ int get_current_month (int time){
    }else{
       i = 1;
    }
-   if (tyd>0 && tyd <=31){
+   if (tyd > 0 && tyd <= 31){
       return 1;
-   }else if (tyd>31 && tyd<=59+i){
+   }else if (tyd > 31 && tyd <= 59 + i){
       return 2;
-   }else if (tyd>59+i && tyd<=90+i){
+   }else if (tyd > 59 + i && tyd <= 90 + i){
       return 3;
-   }else if (tyd>90+i && tyd<=120+i){
+   }else if (tyd > 90 + i && tyd <= 120 + i){
       return 4;
-   }else if (tyd>120+i && tyd<=151+i){
+   }else if (tyd > 120 + i && tyd <= 151 + i){
       return 5;
-   }else if (tyd>151+i && tyd<=181+i){
+   }else if (tyd > 151 + i && tyd <= 181 + i){
       return 6;
-   }else if (tyd>181+i && tyd<=212+i){
+   }else if (tyd > 181 + i && tyd <= 212 + i){
       return 7;
-   }else if (tyd>212+i && tyd<=243+i){
+   }else if (tyd > 212 + i && tyd <= 243 + i){
       return 8;
-   }else if (tyd>243+i && tyd<=273+i){
+   }else if (tyd > 243 + i && tyd <= 273 + i){
       return 9;
-   }else if (tyd>273+i && tyd<=304+i){
+   }else if (tyd > 273 + i && tyd <= 304 + i){
       return 10;
-   }else if (tyd>304+i && tyd<=334+i){
+   }else if (tyd > 304 + i && tyd <= 334 + i){
       return 11;
-   }else if (tyd>334+i && tyd<=365+i){
+   }else if (tyd > 334 + i && tyd <= 365 + i){
       return 12;
    }
    return 0;
