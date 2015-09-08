@@ -100,37 +100,16 @@ int days_passed_current_year (int time){
 int get_current_month (int time){
    /* the number of days passed in the current year is: */
    int tyd = days_passed_current_year(time);
-   int i;
-   if (is_bisect_year(time) == 0){
-      i = 0;
-   }else{
-      i = 1;
-   }
-   if (tyd > 0 && tyd <= 31){
-      return 1;
-   }else if (tyd > 31 && tyd <= 59 + i){
-      return 2;
-   }else if (tyd > 59 + i && tyd <= 90 + i){
-      return 3;
-   }else if (tyd > 90 + i && tyd <= 120 + i){
-      return 4;
-   }else if (tyd > 120 + i && tyd <= 151 + i){
-      return 5;
-   }else if (tyd > 151 + i && tyd <= 181 + i){
-      return 6;
-   }else if (tyd > 181 + i && tyd <= 212 + i){
-      return 7;
-   }else if (tyd > 212 + i && tyd <= 243 + i){
-      return 8;
-   }else if (tyd > 243 + i && tyd <= 273 + i){
-      return 9;
-   }else if (tyd > 273 + i && tyd <= 304 + i){
-      return 10;
-   }else if (tyd > 304 + i && tyd <= 334 + i){
-      return 11;
-   }else if (tyd > 334 + i && tyd <= 365 + i){
-      return 12;
-   }
+
+   /* margin contains the limits of each month based on tyd variable */
+   int margin [13] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
+
+   int k;
+   for (k = 0; k < sizeof(margin); k++){
+      if (tyd > margin[k] && tyd <= margin[k + 1] + is_bisect_year(time)){
+         return k + 1;
+      } 
+   } 
    return 0;
 }
 
