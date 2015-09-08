@@ -45,13 +45,12 @@ int get_years (int time){
    int days = get_days(time);
    int year = 0;
    int count = 0;
-   while (1){
+   while (count <= days){
       if ((year % 4 != 0) || ((year % 100 != 0) && (year % 400 == 0))){
          count += 365;
       }else{
          count += 366;
       }
-      if (count>days) {break;}
       year++;
    }
    return year;
