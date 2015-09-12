@@ -1,5 +1,5 @@
 #include <stdio.h>
-int timestamp = 1440163000;
+int timestamp = 1442084161;
 
 int main () {
    return 0;
@@ -45,11 +45,11 @@ int get_years (int time){
    int days = get_days(time);
    int year = 0;
    int count = 0;
-   while (count <= days){
-      if ((year % 4 != 0) || ((year % 100 != 0) && (year % 400 == 0))){
-         count += 365;
-      }else{
+   while (count <= days - 365){
+      if (is_bisect_year(year + 1970)){
          count += 366;
+      }else{
+         count += 365;
       }
       year++;
    }
@@ -73,16 +73,25 @@ int get_bisect_years_number (int time){
 }
 
 /**
- * Receives the timestamp and returns the answer to the question "is the current year a bisect year?"
+ * Receives the year and returns the answer to the question "is this year a bisect year?"
  * 0 - no, 1 - yes
  */
-int is_bisect_year (int timestamp){
-   int current_year = get_current_year(timestamp);
-   if (current_year % 4 != 0 || ((current_year % 100 != 0) && (current_year % 400 ==0))){
+int is_bisect_year (int year){
+   if (year % 4 != 0 || ((year % 100 != 0) && (year % 400 == 0))){
       return 0;
    }else{
       return 1;
    }
+   return 0;
+}
+
+/**
+ * Receives the timestamp and returns the answer to the question "is the current year a bisect year?"
+ * 0 - no, 1 - yes
+ */
+int is_current_yer_bisect_year (int timestamp){
+   int current_year = get_current_year(timestamp);
+   return is_bisect_year(current_year);
 }
 
 /**
@@ -98,15 +107,21 @@ int days_passed_current_year (int time){
  *
  */
 int get_current_month (int time){
+   /* the current year */
+   int year = get_current_year(time);
+
    /* the number of days passed in the current year is: */
    int tyd = days_passed_current_year(time);
 
    /* margin contains the limits of each month based on tyd variable */
    int margin [13] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
 
+   /* if tyd is smaller than 31 we are in the first month and exit */
+   if (tyd <= margin[1]) {return 1;}
+
    int k;
-   for (k = 0; k < sizeof(margin); k++){
-      if (tyd > margin[k] && tyd <= margin[k + 1] + is_bisect_year(time)){
+   for (k = 1; k < sizeof(margin); k++){
+      if (tyd > margin[k] + is_bisect_year(year)  && tyd <= margin[k + 1] + is_bisect_year(year)){
          return k + 1;
       } 
    } 
