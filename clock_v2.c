@@ -1,5 +1,5 @@
 #include <stdio.h>
-int timestamp = 1442084161;
+int timestamp = 1442089482;
 
 int main () {
    return 0;
@@ -133,7 +133,28 @@ int get_current_month (int time){
  *
  */
 int get_current_day (int time){
-   return 0;
+   /* the number of days passed in the current year plus one day:  */
+   int tyd = days_passed_current_year(time) + 1;
+
+   int margin [13] = {0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365};
+   
+   
+   /* add_one_day is 1 if the current year is a bisect year and 0 if not. It adds one day if necessary */
+   int add_one_day = is_bisect_year(get_current_year(time));
+   int h;
+
+   int k;
+   for (k = 0; k < sizeof(margin); k++){
+      /* first two months doesn't matter if the year is bisect or not */
+      if (k < 2){
+         h = 0;
+      }else{
+         h = add_one_day;
+      }
+      if (tyd > margin[k] + h && tyd <= margin[k + 1] + h){
+         return tyd - (margin[k] + h);
+      }
+   }
 }
 
 /**
