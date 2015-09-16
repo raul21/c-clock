@@ -1,9 +1,9 @@
 #include <stdio.h>
-int timestamp = 1442089482;
-
+int timestamp = 1442413098;
 int main () {
-   return 0;
+        return 0;
 }
+
 
 /**
  * Receives the timestamp and returns the total number of seconds  
@@ -162,7 +162,7 @@ int get_current_day (int time){
  *
  */
 int get_current_hour (int time){
-   return 0;
+   return get_hours(time) - get_days(time) * 24;
 }
 
 /**
@@ -170,7 +170,7 @@ int get_current_hour (int time){
  *
  */
 int get_current_minute (int time){
-   return 0;
+   return get_minutes(time) - get_hours(time) * 60;
 }
 
 /**
@@ -178,6 +178,6 @@ int get_current_minute (int time){
  *
  */
 int get_current_second (int time){
-   return 0;
+   return get_seconds(time) - get_minutes(time) * 60;
 }
 
