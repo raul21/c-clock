@@ -1,7 +1,7 @@
 #include <stdio.h>
 int timestamp = 1442413098;
 int main () {
-        return 0;
+   return 0;
 }
 
 
@@ -181,3 +181,27 @@ int get_current_second (int time){
    return get_seconds(time) - get_minutes(time) * 60;
 }
 
+/**
+ * Receives the timestamp and returns the number of passed weeks
+ *
+ */
+int get_weeks (int time) {
+   return get_days(time) / 7;
+}
+
+/**
+ * Receives the timestamp and returns the day of the week
+ *
+ */
+int get_week_day (int time){
+   int week_day = get_days(time) - get_weeks(time) * 7;
+   switch (week_day){
+      case 0: return 5;
+      case 1: return 6;
+      case 2: return 7;
+      case 3: return 1;
+      case 4: return 2;
+      case 5: return 3;
+      case 6: return 4;
+   }
+}
