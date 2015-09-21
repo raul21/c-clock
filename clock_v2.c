@@ -120,7 +120,7 @@ int get_current_month (int time){
    if (tyd <= margin[1]) {return 1;}
 
    int k;
-   for (k = 1; k < sizeof(margin); k++){
+   for (k = 1; k < 13; k++){
       if (tyd > margin[k] + is_bisect_year(year)  && tyd <= margin[k + 1] + is_bisect_year(year)){
          return k + 1;
       } 
@@ -144,7 +144,7 @@ int get_current_day (int time){
    int h;
 
    int k;
-   for (k = 0; k < sizeof(margin); k++){
+   for (k = 0; k < 13; k++){
       /* first two months doesn't matter if the year is bisect or not */
       if (k < 2){
          h = 0;
