@@ -1,7 +1,7 @@
 #include <stdio.h>
-int timestamp = 1442413098;
+int timestamp = 1442845112;
 int main () {
-   return 0;
+        return 0;
 }
 
 
@@ -163,6 +163,88 @@ int get_current_day (int time){
  */
 int get_current_hour (int time){
    return get_hours(time) - get_days(time) * 24;
+}
+
+/**
+ * Receives the year and the last sunday of the month of 1970 year and returns the last sunday of the month for the considered year
+ *
+ */
+int get_last_sunday (int year, int last_sunday_1970){
+   int count = last_sunday_1970;
+   int k;
+   for (k = 1970; k < 2999; k++){
+      if (k == year) {return count;}
+      count--;
+      if (k % 4 == 0 || (k % 100 == 0 && k % 400 != 0)){
+         count--;
+      }
+      if (count <= 25) {count = 31;}
+   }
+}
+
+/**
+ * Receives the year and returns the last sunday of the march for the given year
+ *
+ */
+int get_march_last_sunday (int year){
+   return get_last_sunday(year, 29);
+}
+
+/**
+ * Receives the year and returns the last sunday of the october for the given year
+ *
+ */
+int get_october_last_sunday (year){
+   return get_last_sunday(year, 25);
+}
+
+/**
+ * Receives the timestamp and returns the real hour - summer or winter hour
+ *
+ */
+int get_real_hour (int time) {
+   int real_hour = get_current_hour(time);
+
+   int current_date[5];
+   current_date[0] = get_current_month(time);
+   current_date[1] = get_current_day(time);
+   current_date[2] = get_current_hour(time);
+   current_date[3] = get_current_minute(time);
+   current_date[4] = get_current_second(time);
+   int spring_date[5];
+   spring_date[0] = 3;
+   spring_date[1] = get_march_last_sunday(get_current_year(time));
+   spring_date[2] = 3;
+   spring_date[3] = 0;
+   spring_date[4] = 0;
+   int autumn_date[5];
+   autumn_date[0] = 10;
+   autumn_date[1] = get_october_last_sunday(get_current_year(time));
+   autumn_date[2] = 4;
+   autumn_date[3] = 0;
+   autumn_date[4] = 0;
+
+   if (compare_dates(spring_date, current_date) && compare_dates(current_date, autumn_date)){
+      real_hour++;
+   }
+   return real_hour;
+}
+
+/**
+ * Receives two dates and returns 1 if the first date is previous to the second one
+ * A *_date array contains, in order, month, day, hour, minute, second so the dates must be in the same year
+ */
+int compare_dates (int first_date[5], int second_date[5]){
+   int i;
+   for (i = 0; i < 5; i++){
+      if (first_date[i] < second_date[i]){
+         return 1;
+      }else if (first_date[i] == second_date[i]){
+         continue;
+      }else{
+         return 0;
+      }
+   }
 }
 
 /**
