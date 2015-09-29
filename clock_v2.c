@@ -1,7 +1,7 @@
 #include <stdio.h>
-int timestamp = 1442845112;
+int timestamp = 1443555032;
 int main () {
-        return 0;
+   return 0;
 }
 
 
@@ -165,29 +165,18 @@ int get_current_hour (int time){
    return get_hours(time) - get_days(time) * 24;
 }
 
-/**
- * Receives the year and the last sunday of the month of 1970 year and returns the last sunday of the month for the considered year
- *
- */
-int get_last_sunday (int year, int last_sunday_1970){
-   int count = last_sunday_1970;
-   int k;
-   for (k = 1970; k < 2999; k++){
-      if (k == year) {return count;}
-      count--;
-      if (k % 4 == 0 || (k % 100 == 0 && k % 400 != 0)){
-         count--;
-      }
-      if (count <= 25) {count = 31;}
-   }
-}
 
 /**
  * Receives the year and returns the last sunday of the march for the given year
  *
  */
 int get_march_last_sunday (int year){
-   return get_last_sunday(year, 29);
+   int days[28] = {27, 26, 25, 30, 29, 28, 27, 25, 31, 30, 29, 27, 26, 25, 31, 29, 28, 27, 26, 31, 30, 29, 28, 26, 25, 31, 30, 28};
+   /* Our calendar skipped eleven days in september 1752 */
+   int k = year;
+   if (year > 1752) { k += 11;}
+   return days[k % 28];
+
 }
 
 /**
@@ -195,7 +184,11 @@ int get_march_last_sunday (int year){
  *
  */
 int get_october_last_sunday (year){
-   return get_last_sunday(year, 25);
+   int days[28] = {30, 29, 28, 26, 25, 31, 30, 28, 27, 26, 25, 30, 29, 28, 27, 25, 31, 30, 29, 27, 26, 25, 31, 29, 28, 27, 26, 31};
+   /* Our calendar skipped eleven days in september 1752 */
+   int k = year;
+   if (year > 1753) { k += 11;}
+   return days[k % 28];
 }
 
 /**
