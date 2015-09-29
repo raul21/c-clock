@@ -1,9 +1,5 @@
 #include <stdio.h>
 int timestamp = 1443555032;
-int main () {
-   return 0;
-}
-
 
 /**
  * Receives the timestamp and returns the total number of seconds  
@@ -280,3 +276,18 @@ int get_week_day (int time){
       case 6: return 4;
    }
 }
+
+/**
+ * Receives the timestamp and returns the name of the day of the week
+ *
+ */
+char * get_week_day_name (int time) {
+   int week_day = get_week_day(time);
+   char * week[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+   return week[week_day - 1];   
+}
+
+int main () {
+   return 0;
+}
+
