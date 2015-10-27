@@ -1,5 +1,5 @@
 #include <stdio.h>
-int timestamp = 1443555032;
+#include <time.h>
 
 /**
  * Receives the timestamp and returns the total number of seconds  
@@ -287,7 +287,19 @@ char * get_week_day_name (int time) {
    return week[week_day - 1];   
 }
 
+/**
+ * Receives the timestamp and displays the clock
+ *
+ */
+void display (int time) {
+   printf ("%i %i\n", get_current_year(time), get_current_month(time));
+   printf ("%i %s\n", get_current_day(time), get_week_day_name(time));
+   printf ("%i : %i %i\n", get_real_hour(time), get_current_minute(time), get_current_second(time));
+}  
+
 int main () {
+   int timestamp = (int) time (NULL);
+   display (timestamp);
    return 0;
 }
 
