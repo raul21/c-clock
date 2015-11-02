@@ -297,9 +297,15 @@ void display (int time) {
    printf ("%i : %i %i\n", get_real_hour(time), get_current_minute(time), get_current_second(time));
 }  
 
+
 int main () {
-   int timestamp = (int) time (NULL);
-   display (timestamp);
+   int timestamp = 1;
+   while (1) {
+      timestamp = (int) time (NULL);
+      display (timestamp);
+      sleep (1);
+      printf ("\033[A\033[A\033[A");
+   }
    return 0;
 }
 
