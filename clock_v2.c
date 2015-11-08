@@ -1,5 +1,6 @@
-#include <stdio.h>
 #include <time.h>
+#include <stdlib.h>
+#include <gtk/gtk.h>
 
 /**
  * Receives the timestamp and returns the total number of seconds  
@@ -297,15 +298,55 @@ void display (int time) {
    printf ("%i : %i %i\n", get_real_hour(time), get_current_minute(time), get_current_second(time));
 }  
 
+/**
+ * Receives the timestamp and returns a string to be displayed
+ *
+ */
+char * output (int time) {
+   char * output;
+   output = (char *) malloc (64 * sizeof (char));
+   sprintf (output, "%i %i\n\n%i %s\n\n%i : %i %i", get_current_year (time), get_current_month (time), get_current_day (time), get_week_day_name (time), get_real_hour (time), get_current_minute (time), get_current_second (time));
+   return output; 
+}
 
-int main () {
-   int timestamp = 1;
-   while (1) {
-      timestamp = (int) time (NULL);
-      display (timestamp);
-      sleep (1);
-      printf ("\033[A\033[A\033[A");
-   }
+/**
+ * A callback that will be recalled after a period of time.
+ * Changes the content of the buffer.
+ * Receives a pointer to that buffer and returns 1
+ */
+gint recall (gpointer buffer) {
+   int timestamp = (int) time (NULL);
+   gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), output (timestamp), -1);
+   return 1;
+} 
+
+int main (int argc, char *argv[]) {
+   gtk_init (&argc, &argv);
+   GtkWidget *gui;  // the window in which the data are displayed
+   GtkWidget *display; // the GtkTextView
+   GtkTextBuffer *bufy;  // contains the string to be displayed
+   GtkTextTagTable *bufystable; // coresponding tagtable for bufy
+
+   gui = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+   gtk_window_set_title (GTK_WINDOW (gui), "C_clock");
+   gtk_window_set_default_size (GTK_WINDOW (gui), 150, 70);
+   gtk_window_set_position (GTK_WINDOW (gui), GTK_WIN_POS_CENTER);
+   g_signal_connect (gui, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+   gtk_widget_show (gui);
+
+   bufystable = gtk_text_tag_table_new ();
+   bufy = gtk_text_buffer_new (bufystable);
+   display = gtk_text_view_new_with_buffer (GTK_TEXT_BUFFER (bufy));
+   // the user can't edit the display
+   gtk_text_view_set_editable (GTK_TEXT_VIEW (display), FALSE);
+
+   gtk_container_add (GTK_CONTAINER (gui), display);
+   gtk_widget_show (display);
+
+   // Update the buffer after 500 miliseconds and repeat
+   g_timeout_add (500, recall, bufy);
+   
+   gtk_main ();
    return 0;
 }
 
